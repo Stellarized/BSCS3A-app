@@ -6,6 +6,10 @@ use App\Services\UserService;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Response;
 use PhpParser\Node\Stmt\Echo_;
+use App\Http\Controllers\ProductController;
+use App\Services\ProductService;  // <-- Import ProductService
+use App\Providers\productServiceProvider;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -74,4 +78,16 @@ Route::get('/token', function(Request $request){
 
 Route::post('/token', function(Request $request){
     return $request->all();
+});
+
+//Controller -> Middleware
+Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+
+//Resource
+Route::resource('products', ProductController::class);
+
+//View with data
+Route::get('/product-list', function (ProductService $productService) {
+    $data['products'] = $productService->listProducts();
+    return view('products.list', $data);
 });

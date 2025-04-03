@@ -1,1 +1,5 @@
-welcome to BSCS3A-APP
+<x-layout>
+    <x-slot:heading>
+        <h1>Welcome to {{ $name }}</h1>
+    </x-slot>
+</x-layout>

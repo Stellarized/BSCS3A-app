@@ -7,13 +7,18 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Response;
 use PhpParser\Node\Stmt\Echo_;
 use App\Http\Controllers\ProductController;
-use App\Services\ProductService;  // <-- Import ProductService
+use App\Services\ProductService;
 use App\Providers\productServiceProvider;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'BCS3A-app']);
 });
+
+Route::get('/users', [UserController::class, 'index']);
+
+Route::resource('products', ProductController::class);
+
 
 // Service Container
 Route::get('/test-container', function (Request $request) {
@@ -54,15 +59,15 @@ Route::get('/test/route', function() {
 })->name('test-route');
 
 //Route -> Middleware Group
-Route::middleware(['user-middleware'])->group(function() {
-    Route::get('route-middleware-group/first', function (Request $request) {
-        echo 'first';
-    });
+// Route::middleware(['user-middleware'])->group(function() {
+//     Route::get('route-middleware-group/first', function (Request $request) {
+//         echo 'first';
+//     });
 
-    Route::get('route-middleware-group/second', function (Request $request) {
-        echo 'second';
-    });    
-});
+//     Route::get('route-middleware-group/second', function (Request $request) {
+//         echo 'second';
+//     });    
+// });
 
 //Route -> Controller
 Route::controller(UserController::class)->group(function(){
@@ -80,11 +85,11 @@ Route::post('/token', function(Request $request){
     return $request->all();
 });
 
-//Controller -> Middleware
-Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+// Controller -> Middleware
+// Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
 
-//Resource
-Route::resource('products', ProductController::class);
+// Resource
+// Route::resource('products', ProductController::class);
 
 //View with data
 Route::get('/product-list', function (ProductService $productService) {

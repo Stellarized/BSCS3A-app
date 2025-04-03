@@ -31,8 +31,7 @@ class ProductServiceProvider extends ServiceProvider
             
         });
     }
-        
-
+    
 
     /**
      * Bootstrap services.
